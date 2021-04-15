@@ -1,14 +1,16 @@
 package com.example.musicapp.Model;
 
 public class UploadAlbum {
-    String url;
-    String name;
-    String song;
 
-    public UploadAlbum(String url, String name, String songsCategory) {
+    String name;
+    String url;
+    String songsCategory;
+
+    public UploadAlbum(String url,String name, String songsCategory) {
+
         this.url = url;
         this.name = name;
-        this.song = songsCategory;
+        this.songsCategory = songsCategory;
     }
 
     public UploadAlbum() {
@@ -31,10 +33,10 @@ public class UploadAlbum {
     }
 
     public String getSongsCategory() {
-        return song;
+        return songsCategory;
     }
 
     public void setSongsCategory(String songsCategory) {
-        this.song = songsCategory;
+        this.songsCategory = songsCategory;
     }
 }

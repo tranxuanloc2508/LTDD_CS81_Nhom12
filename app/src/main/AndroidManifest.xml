@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -12,7 +14,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MusicApp">
-        <activity android:name=".AlbumActivity"></activity>
+        <activity android:name=".UploadAlbummActivity"></activity>
+        <activity android:name=".UploadSongsActivity" />
+        <activity android:name=".ListAlbumSongActivity" />
+        <activity android:name=".AlbumActivity" />
         <activity android:name=".PlayerActivity" />
         <activity android:name=".SongsListActivity" />
         <activity android:name=".MusicLibActivity" />
