@@ -14,7 +14,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MusicApp">
-        <activity android:name=".UploadAlbummActivity"></activity>
+        <activity android:name=".ListSongActivity"></activity>
+        <activity
+            android:name=".MenuLibActivity"
+            android:label="@string/title_activity_menu_lib" />
+        <activity android:name=".UploadAlbummActivity" />
         <activity android:name=".UploadSongsActivity" />
         <activity android:name=".ListAlbumSongActivity" />
         <activity android:name=".AlbumActivity" />

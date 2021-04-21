@@ -39,19 +39,29 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="300dp"
         android:layout_alignParentTop="true"
         android:id="@+id/tv_duration"
         android:text="3:05"></TextView>
+
     <ImageView
         android:id="@+id/iv_play_active"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_below="@+id/tv_duration"
+        android:layout_marginLeft="300dp"
         android:src="@drawable/ic_play_circle_outline_white"
         android:visibility="invisible"></ImageView>
+
+    <ImageView
+        android:id="@+id/download"
+        android:layout_width="20dp"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:onClick="showMenu"
+        android:src="@drawable/ic_baseline_table_rows_24"></ImageView>
 
 </RelativeLayout>
     <!--        android:layout_alignParentEnd="true"-->

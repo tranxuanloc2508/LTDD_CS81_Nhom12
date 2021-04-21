@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
         btn_Login = (Button)findViewById(R.id.btn_login);
 
         LoadingBar.setTitle("Login Account");
-        LoadingBar.setMessage("Pleasr wait");
+        LoadingBar.setMessage("Please wait");
         LoadingBar.setCanceledOnTouchOutside(false);
 
         btn_Login.setOnClickListener(new View.OnClickListener() {
@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                         {
                             //di toi musiclibrary activity//de tao moi activity
                             LoadingBar.dismiss();
-                            Intent i = new Intent(LoginActivity.this,MusicLibActivity.class);
+                            Intent i = new Intent(LoginActivity.this,PlayerActivity.class);
                             startActivity(i);
 
                             // nếu người dùng tồn tại thì sẽ chuuyeen tới libmusic

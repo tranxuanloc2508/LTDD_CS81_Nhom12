@@ -6,10 +6,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import com.example.musicapp.Model.UploadAlbum;
 import com.example.musicapp.Adapter.RecycleViewAlbum;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -58,6 +61,35 @@ public class AlbumActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
 
                 progressDialog.dismiss();
+            }
+        });
+
+        BottomNavigationView navView = findViewById(R.id.bottom_navigation);
+        navView.setSelectedItemId(R.id.navigation_dashboard);
+        navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.navigation_home:
+                        startActivity(new Intent(getApplicationContext(), PlayerActivity.class));
+                        finish();
+                        overridePendingTransition(0,0);
+                        return false;
+                    case R.id.navigation_dashboard:
+
+                    case R.id.navigation_notifications:
+                        startActivity(new Intent(getApplicationContext(), UploadSongsActivity.class));
+                        finish();
+                        overridePendingTransition(0,0);
+                        return false;
+                    case R.id.artist:
+                        startActivity(new Intent(getApplicationContext(), ListSongActivity.class));
+                        finish();
+                        overridePendingTransition(0,0);
+                        return false;
+                }
+
+                return true;
             }
         });
     }

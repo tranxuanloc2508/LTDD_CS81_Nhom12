@@ -9,20 +9,26 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.app.DownloadManager;
 import android.content.Context;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 
 import android.os.Handler;
+import android.view.MenuItem;
 import android.view.View;
+import android.webkit.CookieManager;
+import android.webkit.URLUtil;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.musicapp.Adapter.SlideAdapter;
 import com.example.musicapp.Model.SlideItem;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -96,7 +102,7 @@ public class PlayerActivity extends AppCompatActivity {
 
         Heart =(ImageView)findViewById(R.id.heart);
         Repeat =(ImageView)findViewById(R.id.repeat);
-        Download =(ImageView)findViewById(R.id.download);
+        Download = (ImageView) findViewById(R.id.download);
 
         mref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -113,30 +119,18 @@ public class PlayerActivity extends AppCompatActivity {
                 }
                 for(int i =0;i<cover_image.size();i++)
                 {
-                    // thêm url vào slideitems
+
                     sildeItems.add(new SlideItem(cover_image.get(i)));
                 }
-//                for(int i =0;i<lyrics.size();i++)
-//                {
-//                    // thêm url vào slideitems
-//                    lyri.add(new SlideLyrics(lyrics.get(i)));
-//                }
-
-                //here
+//
                 viewPager2.setAdapter(new SlideAdapter(sildeItems));
                 viewPager2.setClipToPadding(false);
                 viewPager2.setClipChildren(false);
 
-
-//                viewPager1.setAdapter(new Lyrics(lyri));
-//                viewPager1.setClipToPadding(false);
-//                viewPager1.setClipChildren(false);
-
                 // đặt giới hạn trang
                 viewPager2.setOffscreenPageLimit(3);
                 viewPager2.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
-//                viewPager1.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
-                //Tạo biến cho trang và đặt lề cho trang tỷ lệ trang
+
                 CompositePageTransformer compositePageTransformer = new CompositePageTransformer();
                 compositePageTransformer.addTransformer(new MarginPageTransformer(40));
                 compositePageTransformer.addTransformer(new ViewPager2.PageTransformer() {
@@ -147,13 +141,6 @@ public class PlayerActivity extends AppCompatActivity {
                 });
                 viewPager2.setPageTransformer(compositePageTransformer);
 
-//                compositePageTransformer.addTransformer(new ViewPager2.PageTransformer() {
-//                    @Override
-//                    public void transformPage(@NonNull View page, float position) {
-//                        page.setScaleY(1);
-//                    }
-//                });
-//                viewPager1.setPageTransformer(compositePageTransformer);
 
             }
 
@@ -172,16 +159,36 @@ public class PlayerActivity extends AppCompatActivity {
                 currentSongIndex = viewPager2.getCurrentItem();
             }
         });
-//        viewPager1.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-//            @Override
-//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
-//
-//                init(viewPager1.getCurrentItem());
-//
-//                currentSongIndex = viewPager1.getCurrentItem();
-//            }
-//        });
+
+
+        BottomNavigationView navView = findViewById(R.id.bottom_navigation);
+        navView.setSelectedItemId(R.id.navigation_home);
+        navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.navigation_home:
+
+                    case R.id.navigation_dashboard:
+                        startActivity(new Intent(getApplicationContext(), AlbumActivity.class));
+                        finish();
+                        overridePendingTransition(0,0);
+                        return false;
+                    case R.id.navigation_notifications:
+                        startActivity(new Intent(getApplicationContext(), UploadSongsActivity.class));
+                        finish();
+                        overridePendingTransition(0,0);
+                        return false;
+                    case R.id.artist:
+                        startActivity(new Intent(getApplicationContext(), ListSongActivity.class));
+                        finish();
+                        overridePendingTransition(0,0);
+                        return false;
+                }
+
+                return true;
+            }
+        });
 
 
         Next.setOnClickListener(new View.OnClickListener() {
@@ -292,32 +299,37 @@ public class PlayerActivity extends AppCompatActivity {
 
             }
         });
-
-
         Download.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               download();
+                mref.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        Uri url = Uri.parse(snapshot.child(String.valueOf(currentSongIndex+1)).child("url").getValue().toString());
+                        String title = URLUtil.guessFileName(String.valueOf(url),null,null);
+                        DownloadManager.Request request = new DownloadManager.Request(url).setTitle(title);
+                        String cookie = CookieManager.getInstance().getCookie(String.valueOf(url));
+                        request.addRequestHeader("cookie",cookie)
+                                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                                .setDestinationInExternalPublicDir(DIRECTORY_DOWNLOADS,title);
+                        DownloadManager downloadManager = (DownloadManager)getSystemService(DOWNLOAD_SERVICE);
+                        downloadManager.enqueue(request);
+
+                        Toast.makeText(PlayerActivity.this, "Start download ", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
             }
         });
+
     }
 
-    private void download() {
-        audioRef = FirebaseStorage.getInstance().getReference().child("songs");
 
-        audioRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                String url = uri.toString();
-                dowloadfile(PlayerActivity.this,"song",".mp3", DIRECTORY_DOWNLOADS,url);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-
-            }
-        });
-    }
     private void dowloadfile(Context context, String fileName, String fileExtension, String des, String url) {
 
         DownloadManager downloadManager = (DownloadManager) context.getSystemService(context.DOWNLOAD_SERVICE);

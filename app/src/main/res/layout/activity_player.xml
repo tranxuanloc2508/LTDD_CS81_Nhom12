@@ -36,24 +36,21 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="236dp"
-        android:layout_below="@id/artists"
-        >
+        android:layout_height="230dp"
+        android:layout_below="@id/artists">
         <TextView
             android:id="@+id/lyrics"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
-
+            android:layout_height="wrap_content" />
     </ScrollView>
 
     <RelativeLayout
         android:id="@+id/seelayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/artists"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="156dp"
+        android:layout_below="@id/artists"
+        android:layout_marginTop="250dp"
         android:layout_marginEnd="8dp">
 
 
@@ -61,7 +58,6 @@
             android:id="@+id/see_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="90dp"
             android:saveEnabled="false" />
 
         <TextView
@@ -87,84 +83,94 @@
             android:textColor="@android:color/darker_gray" />
     </RelativeLayout>
 
-    <ImageView
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:src="@drawable/circle"
-        android:onClick="playpausebutton"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="25dp"/>
-    <ImageView
-        android:id="@+id/play"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:onClick="playpausebutton"
-        android:src="@drawable/ic_baseline_play_arrow_24"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="35dp"
-        android:layout_centerHorizontal="true"
-        android:visibility="invisible"/>
-    <ImageView
-        android:id="@+id/pause"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/ic_baseline_pause_24"
-        android:onClick="playpausebutton"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="35dp"
-        android:layout_centerHorizontal="true"/>
-    <ImageView
-        android:id="@+id/prev"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="35dp"
-        android:layout_marginRight="40dp"
-        android:layout_toLeftOf="@id/pause"
-        android:src="@drawable/ic_baseline_skip_previous_24"
+       <ImageView
+           android:layout_width="60dp"
+           android:layout_height="60dp"
+           android:src="@drawable/circle"
+           android:onClick="playpausebutton"
+           android:layout_above="@id/bottom_navigation"
+           android:layout_marginBottom="5dp"
+           android:layout_centerHorizontal="true"
+         />
+       <ImageView
+           android:id="@+id/play"
+           android:layout_width="40dp"
+           android:layout_height="40dp"
+           android:onClick="playpausebutton"
+           android:src="@drawable/ic_baseline_play_arrow_24"
+           android:layout_above="@id/bottom_navigation"
+           android:layout_marginBottom="16dp"
+           android:layout_centerHorizontal="true"
+           android:visibility="invisible"/>
+       <ImageView
+           android:id="@+id/pause"
+           android:layout_width="40dp"
+           android:layout_height="40dp"
+           android:src="@drawable/ic_baseline_pause_24"
+           android:onClick="playpausebutton"
+           android:layout_above="@id/bottom_navigation"
+           android:layout_marginBottom="16dp"
+           android:layout_centerHorizontal="true"/>
+        <ImageView
+            android:id="@+id/download"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_baseline_arrow_downward_24"
+            android:layout_above="@id/bottom_navigation"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="70dp"/>
+       <ImageView
+           android:id="@+id/prev"
+           android:layout_width="40dp"
+           android:layout_height="40dp"
+           android:layout_marginRight="40dp"
+           android:layout_above="@id/bottom_navigation"
+           android:layout_marginBottom="5dp"
+           android:layout_toLeftOf="@id/pause"
+           android:src="@drawable/ic_baseline_skip_previous_24"
 
-        />
-    <ImageView
-        android:id="@+id/next"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="35dp"
-        android:layout_marginLeft="40dp"
-        android:layout_toRightOf= "@id/pause"
-        android:src="@drawable/ic_baseline_skip_next_24"
+           />
+       <ImageView
+           android:id="@+id/next"
+           android:layout_width="40dp"
+           android:layout_height="40dp"
+           android:layout_marginLeft="40dp"
+           android:layout_toRightOf= "@id/pause"
+           android:layout_above="@id/bottom_navigation"
+           android:layout_marginBottom="5dp"
+           android:src="@drawable/ic_baseline_skip_next_24"
+           />
 
-        />
     <ImageView
         android:id="@+id/heart"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@drawable/hear2"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="35dp"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="20dp"/>
+        android:layout_above="@id/bottom_navigation"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="20dp"
+        android:src="@drawable/hear2" />
 
-    <ImageView
-        android:id="@+id/download"
-        android:layout_width="42dp"
-        android:layout_height="42dp"
-        android:layout_below="@id/viewpaperimageslider"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="-1dp"
-        android:layout_marginBottom="429dp"
-        android:src="@drawable/ic_baseline_arrow_downward_24" />
 
-    <ImageView
-        android:id="@+id/repeat"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/ic_baseline_repeat_one_24"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="35dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginLeft="20dp"/>
+       <ImageView
+           android:id="@+id/repeat"
+           android:layout_above="@id/bottom_navigation"
+           android:layout_marginBottom="5dp"
+
+           android:layout_width="40dp"
+           android:layout_height="40dp"
+           android:src="@drawable/ic_baseline_repeat_one_24"
+           android:layout_alignParentRight="true"
+           android:layout_marginLeft="20dp"/>
+       <com.google.android.material.bottomnavigation.BottomNavigationView
+           android:id="@+id/bottom_navigation"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:background="?android:attr/windowBackground"
+           android:layout_alignParentBottom="true"
+           app:layout_constraintBottom_toBottomOf="parent"
+           app:layout_constraintLeft_toLeftOf="parent"
+           app:layout_constraintRight_toRightOf="parent"
+           app:menu="@menu/bottom_nav_menu" />
+
 </RelativeLayout>

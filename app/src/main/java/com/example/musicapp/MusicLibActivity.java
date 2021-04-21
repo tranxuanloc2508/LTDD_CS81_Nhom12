@@ -37,7 +37,7 @@ public class MusicLibActivity extends AppCompatActivity {
         img_play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MusicLibActivity.this,AlbumActivity.class);
+                Intent i = new Intent(MusicLibActivity.this,MenuLibActivity.class);
                 startActivity(i);
             }
         });

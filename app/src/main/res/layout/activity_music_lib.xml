@@ -39,7 +39,7 @@
         android:id="@+id/subIV"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/ic_baseline_subscriptions_24"
+        android:src="@drawable/ic_baseline_cloud_upload_24"
         android:layout_below="@id/text"
         android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"/>
@@ -47,7 +47,7 @@
         android:id="@+id/playmussic"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/ic_baseline_subscriptions_24"
+        android:src="@drawable/ic_baseline_album_24"
         android:layout_below="@id/subIV"
         android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"/>

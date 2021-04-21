@@ -2,10 +2,12 @@ package com.example.musicapp.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -70,10 +72,12 @@ public class JSongsApdaterPlayer extends RecyclerView.Adapter<JSongsApdaterPlaye
         return arrayListSongs.size();
     }
 
+
+
     public class SongsAdapterViewHolder extends RecyclerView.ViewHolder {
         private TextView tv_title,tv_artist,tv_duration;
-        ImageView iv_play_active;
-        ;
+        ImageView iv_play_active,iv_download;
+
 
         public SongsAdapterViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -81,6 +85,8 @@ public class JSongsApdaterPlayer extends RecyclerView.Adapter<JSongsApdaterPlaye
             tv_artist=itemView.findViewById(R.id.tv_artist);
             tv_duration=itemView.findViewById(R.id.tv_duration);
             iv_play_active = itemView.findViewById(R.id.iv_play_active);
+            iv_download=itemView.findViewById(R.id.download);
+
 
         }
 
@@ -90,10 +96,19 @@ public class JSongsApdaterPlayer extends RecyclerView.Adapter<JSongsApdaterPlaye
                 @Override
                 public void onClick(View v) {
                     listener.onClickListener(upLoadSong,getAdapterPosition());
+
+                   // PopupMenu popupMenu = new PopupMenu(JSongsApdaterPlayer.this, v);
                 }
             });
         }
     }
+//    public void showMenu(View v){
+//        PopupMenu popupMenu = new PopupMenu(this)
+//        popupMenu.setOnMenuItemClickListener(this);
+//        popupMenu.inflate(R.menu.menu_show);
+//        popupMenu.show();
+//    }
+
     public interface RecyclerItemClickListener{
 
         void onClickListener(UpLoadSong upLoadSong,int postion);
