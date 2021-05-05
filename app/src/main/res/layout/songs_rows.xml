@@ -61,7 +61,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:onClick="showMenu"
-        android:src="@drawable/ic_baseline_table_rows_24"></ImageView>
+        android:src="@drawable/ic_baseline_arrow_downward_24"></ImageView>
 
 </RelativeLayout>
     <!--        android:layout_alignParentEnd="true"-->

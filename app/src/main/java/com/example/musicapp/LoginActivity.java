@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                         {
                             //di toi musiclibrary activity//de tao moi activity
                             LoadingBar.dismiss();
-                            Intent i = new Intent(LoginActivity.this,MusicLibActivity.class);
+                            Intent i = new Intent(LoginActivity.this,ListSonggsActivity.class);
                             startActivity(i);
 
                             // nếu người dùng tồn tại thì sẽ chuuyeen tới libmusic

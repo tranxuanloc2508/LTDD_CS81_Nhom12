@@ -26,7 +26,7 @@ public class MenuLibActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.navigation_home:
-                        startActivity(new Intent(getApplicationContext(), UploadSongsActivity.class));
+                        startActivity(new Intent(getApplicationContext(), ListSonggsActivity.class));
                         finish();
                         overridePendingTransition(0,0);
                         return false;
