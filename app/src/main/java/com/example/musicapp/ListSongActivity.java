@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.example.jean.jcplayer.model.JcAudio;
 import com.example.jean.jcplayer.view.JcPlayerView;
 import com.example.musicapp.Adapter.JSongsApdaterPlayer;
+import com.example.musicapp.Model.GetSongs;
 import com.example.musicapp.Model.UpLoadSong;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
@@ -57,22 +58,35 @@ public class ListSongActivity extends AppCompatActivity {
 
     DatabaseReference databaseReference;
     ValueEventListener valueEventListener;
-    List<UpLoadSong> mUpload;
+    List<GetSongs> mUpload;
     ListView listView;
+    TextView tv_songname,tv_songArtists;
 
-    ArrayList<String> arrayListSongs = new ArrayList<>();
-    ArrayList<String> arraySongsUrl = new ArrayList<>();
+
+
+    ArrayList<String> arrayListSongsName = new ArrayList<>();
+    ArrayList<String> arrayListSongsUrl = new ArrayList<>();
     ArrayAdapter<String> arrayAdapter;
+
+
     JcPlayerView jcPlayerView;
     ArrayList<JcAudio> jcAudios = new ArrayList<>();
+    ArrayList<String> url = new ArrayList<>();
+    ArrayList<String> songCategory = new ArrayList<>();
+    ArrayList<String> artists = new ArrayList<>();
+    ArrayList<String> album_art = new ArrayList<>();
+
+//    ArrayAdapter<String> arrayAdapter;
+//    JcPlayerView jcPlayerView;
+//    ArrayList<JcAudio> jcAudios = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_song);
-        listView = findViewById(R.id.myListView);
+        listView = (ListView) findViewById(R.id.myListView);
 
         jcPlayerView = findViewById(R.id.jcplayer);
-
+        retrieveSongs();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -82,7 +96,7 @@ public class ListSongActivity extends AppCompatActivity {
                 jcPlayerView.createNotification();
             }
         });
-        retrieveSongs();
+
         BottomNavigationView navView = findViewById(R.id.bottom_navigation);
         navView.setSelectedItemId(R.id.artist);
         navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -90,7 +104,7 @@ public class ListSongActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.navigation_home:
-                        startActivity(new Intent(getApplicationContext(), PlayerActivity.class));
+                        startActivity(new Intent(getApplicationContext(), UploadSongsActivity.class));
                         finish();
                         overridePendingTransition(0,0);
                         return false;
@@ -114,55 +128,67 @@ public class ListSongActivity extends AppCompatActivity {
     }
 
     private void retrieveSongs() {
-        databaseReference = FirebaseDatabase.getInstance().getReference("songs");
-        valueEventListener = databaseReference.addValueEventListener(new ValueEventListener() {
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("songs");
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot ds: snapshot.getChildren()){
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                    UpLoadSong songobj = ds.getValue(UpLoadSong.class);
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
-                    arrayListSongs.add(songobj.getSongTitle());
-                    arraySongsUrl.add(songobj.getSongLink());
-                    jcAudios.add(JcAudio.createFromURL(songobj.getSongTitle(),songobj.getSongLink()));
+                    GetSongs songObj = ds.getValue(GetSongs.class);
+                    arrayListSongsName.add(songObj.getSong());
+                    arrayListSongsUrl.add(songObj.getUrl());
+                    artists.add(songObj.getArtists());
+
+                    album_art.add(songObj.getCover_image());
+
+
+                    jcAudios.add(JcAudio.createFromURL(songObj.getSong(),songObj.getUrl()));
                 }
-                arrayAdapter = new ArrayAdapter<String>(ListSongActivity.this, android.R.layout.simple_list_item_1,arrayListSongs)
-                {
+                arrayAdapter = new ArrayAdapter<String>(ListSongActivity.this, android.R.layout.simple_list_item_1, arrayListSongsName) {
 
                     @NonNull
                     @Override
                     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                        View view= super.getView(position,convertView,parent);
-                        TextView textView = (TextView)findViewById(android.R.id.text1);
+                        View view = super.getView(position, convertView, parent);
+                        TextView textView = (TextView) view.findViewById(android.R.id.text1);
                         textView.setSingleLine(true);
                         textView.setMaxLines(1);
-
                         return view;
                     }
                 };
                 jcPlayerView.initPlaylist(jcAudios,null);
                 listView.setAdapter(arrayAdapter);
-                if(checkin){
-                    jcPlayerView.initPlaylist(jcAudios,null);
-
-                }else {
-                    Toast.makeText(ListSongActivity.this, "there is no songs!!", Toast.LENGTH_SHORT).show();
-                }
 
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                progressBar.setVisibility(View.GONE);
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
     }
 
-    public void changSelectedSong(int index){
-        adapter.notifyItemChanged(adapter.getSelectedPosition());
-        currentIndex = index;
-        adapter.setSelectedPosition(currentIndex);
-        adapter.notifyItemChanged(currentIndex);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.custom_menu,menu);
+        return super.onCreateOptionsMenu(menu);
     }
+    private void pickSong() {
+
+        Intent intent_upload = new Intent();
+        intent_upload.setType("audio/*");
+        intent_upload.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent_upload,1);
+
+    }
+
+//    public void changSelectedSong(int index){
+//        adapter.notifyItemChanged(adapter.getSelectedPosition());
+//        currentIndex = index;
+//        adapter.setSelectedPosition(currentIndex);
+//        adapter.notifyItemChanged(currentIndex);
+//    }
 }

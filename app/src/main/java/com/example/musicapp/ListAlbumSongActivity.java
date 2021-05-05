@@ -37,7 +37,7 @@ public class ListAlbumSongActivity extends AppCompatActivity {
     ValueEventListener valueEventListener;
     JcPlayerView jcPlayerView;
     ArrayList<JcAudio> jcAudios = new ArrayList<>();
-    private int currentIndex;
+    int currentIndex;
 
 
 

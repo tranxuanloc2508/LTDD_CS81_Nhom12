@@ -50,6 +50,7 @@ public class UploadSongsActivity extends AppCompatActivity implements AdapterVie
     String title1,artist1,album_art1 = "",duration1;
     TextView title,artist,durations,album,dataa;
     ImageView album_art;
+    int a=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,7 +184,8 @@ public class UploadSongsActivity extends AppCompatActivity implements AdapterVie
 
                             UpLoadSong upLoadSong = new UpLoadSong(songsCategory,title1,artist1,album_art1,duration1,uri.toString());
                             String uploadID = referenceSongs.push().getKey();
-                            referenceSongs.child(uploadID).setValue(upLoadSong);
+                            referenceSongs.child(String.valueOf(uploadID)).setValue(upLoadSong);
+                            //a++;
                         }
                     });
 

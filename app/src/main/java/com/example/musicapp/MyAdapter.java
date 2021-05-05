@@ -12,7 +12,7 @@ import com.example.musicapp.Model.SongModel;
 
 import java.util.List;
 
-public class MyAdapter  {
+public class MyAdapter {
 
 //    private List<SongModel> songList;
 //

@@ -161,34 +161,34 @@ public class PlayerActivity extends AppCompatActivity {
         });
 
 
-        BottomNavigationView navView = findViewById(R.id.bottom_navigation);
-        navView.setSelectedItemId(R.id.navigation_home);
-        navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.navigation_home:
-
-                    case R.id.navigation_dashboard:
-                        startActivity(new Intent(getApplicationContext(), AlbumActivity.class));
-                        finish();
-                        overridePendingTransition(0,0);
-                        return false;
-                    case R.id.navigation_notifications:
-                        startActivity(new Intent(getApplicationContext(), UploadSongsActivity.class));
-                        finish();
-                        overridePendingTransition(0,0);
-                        return false;
-                    case R.id.artist:
-                        startActivity(new Intent(getApplicationContext(), ListSongActivity.class));
-                        finish();
-                        overridePendingTransition(0,0);
-                        return false;
-                }
-
-                return true;
-            }
-        });
+//        BottomNavigationView navView = findViewById(R.id.bottom_navigation);
+//        navView.setSelectedItemId(R.id.navigation_home);
+//        navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+//            @Override
+//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//                switch (item.getItemId()){
+//                    case R.id.navigation_home:
+//
+//                    case R.id.navigation_dashboard:
+//                        startActivity(new Intent(getApplicationContext(), AlbumActivity.class));
+//                        finish();
+//                        overridePendingTransition(0,0);
+//                        return false;
+//                    case R.id.navigation_notifications:
+//                        startActivity(new Intent(getApplicationContext(), UploadSongsActivity.class));
+//                        finish();
+//                        overridePendingTransition(0,0);
+//                        return false;
+//                    case R.id.artist:
+//                        startActivity(new Intent(getApplicationContext(), ListSongActivity.class));
+//                        finish();
+//                        overridePendingTransition(0,0);
+//                        return false;
+//                }
+//
+//                return true;
+//            }
+//        });
 
 
         Next.setOnClickListener(new View.OnClickListener() {
@@ -330,18 +330,18 @@ public class PlayerActivity extends AppCompatActivity {
     }
 
 
-    private void dowloadfile(Context context, String fileName, String fileExtension, String des, String url) {
-
-        DownloadManager downloadManager = (DownloadManager) context.getSystemService(context.DOWNLOAD_SERVICE);
-        Uri uri = android.net.Uri.parse(url);
-        DownloadManager.Request request = new DownloadManager.Request(uri);
-
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        request.setDestinationInExternalFilesDir(context,des,fileName+fileExtension);
-
-        downloadManager.enqueue(request);
-
-    }
+//    private void dowloadfile(Context context, String fileName, String fileExtension, String des, String url) {
+//
+//        DownloadManager downloadManager = (DownloadManager) context.getSystemService(context.DOWNLOAD_SERVICE);
+//        Uri uri = android.net.Uri.parse(url);
+//        DownloadManager.Request request = new DownloadManager.Request(uri);
+//
+//        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+//        request.setDestinationInExternalFilesDir(context,des,fileName+fileExtension);
+//
+//        downloadManager.enqueue(request);
+//
+//    }
 
     private void init(int currentItem) {
         try {
