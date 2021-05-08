@@ -6,7 +6,7 @@
     android:clickable="true"
     android:padding="5dp"
     android:focusable="true"
-    android:background="?android:attr/selectableItemBackground">
+    android:background="@mipmap/ic6">
 
     <ImageView
         android:layout_width="50dp"
@@ -53,6 +53,14 @@
         android:src="@drawable/ic_play_circle_outline_white"
         android:visibility="invisible"></ImageView>
 
+    <ImageView
+        android:id="@+id/a"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/tv_duration"
+        android:layout_marginLeft="200dp"
+        android:src="@drawable/ic_play_circle_outline_white"
+       ></ImageView>
     <ImageView
         android:id="@+id/download"
         android:layout_width="20dp"

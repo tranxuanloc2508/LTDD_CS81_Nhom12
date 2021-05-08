@@ -6,30 +6,28 @@
     android:layout_height="match_parent"
     tools:context=".ListSongActivity">
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/myListView"
-        android:choiceMode="singleChoice"
-        android:listSelector="@android:color/darker_gray"
-        android:padding="10dp"/>
+    <ImageView
+        android:id="@+id/down"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_arrow_downward_24"
+
+        />
+    <TextView
+        android:id="@id/lyrics"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="aaaaa"
+        android:textAlignment="center"
+        android:layout_below="@id/down"/>
 
     <com.example.jean.jcplayer.view.JcPlayerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/jcplayer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_above="@id/bottom_navigation"
-        android:visibility="gone" />
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?android:attr/windowBackground"
-        android:layout_alignParentBottom="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/bottom_nav_menu" />
+        >
+
+    </com.example.jean.jcplayer.view.JcPlayerView>
 
 </RelativeLayout>

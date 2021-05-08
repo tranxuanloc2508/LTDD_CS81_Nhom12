@@ -40,11 +40,7 @@ public class MenuLibActivity extends AppCompatActivity {
                         finish();
                         overridePendingTransition(0,0);
                         return false;
-                    case R.id.artist:
-                        startActivity(new Intent(getApplicationContext(), ListSongActivity.class));
-                        finish();
-                        overridePendingTransition(0,0);
-                        return false;
+
                 }
 
                 return true;

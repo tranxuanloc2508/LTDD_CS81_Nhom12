@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@mipmap/ic3">
 
     <LinearLayout
         android:orientation="vertical"
@@ -14,8 +15,8 @@
     <ImageView
         android:id="@+id/icon_main"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/icon"
+        android:layout_height="200dp"
+        android:src="@drawable/ic_play_circle_outline_white"
         android:layout_below="@id/l1"/>
     <LinearLayout
         android:id="@+id/l2"
@@ -35,6 +36,7 @@
                 android:textStyle="bold"
                 android:textSize="60sp"/>
             <TextView
+                android:textColor="@color/white"
                 android:id="@+id/tv_tag"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

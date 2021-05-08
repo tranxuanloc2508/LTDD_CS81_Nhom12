@@ -1,6 +1,8 @@
 package com.example.musicapp.Model;
 
 public class UpLoadSong {
+    private static int dem ;
+    private  int numId = ++dem;
     public String songsCategory,songTitle,artist,album_art,songDuration,songLink,mKey;
 
     public UpLoadSong(String songsCategory, String songTitle, String artist, String album_art, String songDuration, String songLink) {
@@ -19,7 +21,21 @@ public class UpLoadSong {
     }
 
     public UpLoadSong() {
+
     }
+
+    public int getDem() {
+        return dem;
+    }
+
+    public int getNumId() {
+        return numId;
+    }
+
+    public void setNumId(int numId) {
+        this.numId= numId;
+    }
+
 
     public String getSongCategory() {
         return songsCategory;

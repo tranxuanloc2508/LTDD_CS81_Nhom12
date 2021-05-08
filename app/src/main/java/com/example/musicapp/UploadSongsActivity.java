@@ -13,10 +13,12 @@ import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -25,8 +27,12 @@ import android.widget.Toast;
 
 import com.example.musicapp.Model.UpLoadSong;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -38,6 +44,7 @@ import java.util.List;
 
 public class UploadSongsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
+    Button bt_upLoad;
     TextView textViewImage;
     ProgressBar progressBar;
     Uri audioUri;
@@ -50,13 +57,16 @@ public class UploadSongsActivity extends AppCompatActivity implements AdapterVie
     String title1,artist1,album_art1 = "",duration1;
     TextView title,artist,durations,album,dataa;
     ImageView album_art;
-    int a=0;
+//    private static int dem;
+//    private  int numId = ++dem;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_songs);
 
+        bt_upLoad = findViewById(R.id.btn_upload);
         textViewImage =  findViewById(R.id.tv_SongFileSelected);
         progressBar = findViewById(R.id.ProgressBar);
         title = findViewById(R.id.tv_title);
@@ -69,6 +79,42 @@ public class UploadSongsActivity extends AppCompatActivity implements AdapterVie
         mediadataRetriever = new MediaMetadataRetriever();
         referenceSongs = FirebaseDatabase.getInstance().getReference().child("songs");
         mStorageref = FirebaseStorage.getInstance().getReference().child("songs");
+        //// chay thu
+        referenceSongs.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                maxID = (int)snapshot.getChildrenCount();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        BottomNavigationView navView = findViewById(R.id.bottom_navigation);
+        navView.setSelectedItemId(R.id.navigation_notifications);
+        navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.navigation_home:
+                        startActivity(new Intent(getApplicationContext(), ListSonggsActivity.class));
+                        finish();
+                        overridePendingTransition(0,0);
+                        return false;
+                    case R.id.navigation_dashboard:
+                        startActivity(new Intent(getApplicationContext(), AlbumActivity.class));
+                        finish();
+                        overridePendingTransition(0,0);
+                        return false;
+                    case R.id.navigation_notifications:
+
+
+                }
+
+                return true;
+            }
+        });
 
         Spinner spinner =findViewById(R.id.spiner);
 
@@ -107,6 +153,7 @@ public class UploadSongsActivity extends AppCompatActivity implements AdapterVie
     }
 
     @Override
+    // hien noi dung truoc khi UpLoad
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -124,7 +171,7 @@ public class UploadSongsActivity extends AppCompatActivity implements AdapterVie
             album.setText(mediadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM));
             artist.setText(mediadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST));
             dataa.setText(mediadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_GENRE));
-            durations.setText(mediadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
+            durations.setText(mediadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));// xac dinh thoi luong
             title.setText(mediadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE));
 
             artist1 = mediadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST);
@@ -164,16 +211,18 @@ public class UploadSongsActivity extends AppCompatActivity implements AdapterVie
                 Toast.makeText(this,"song upload in allreally progress!",Toast.LENGTH_SHORT).show();
             }else {
                 uploadFiles();
+
             }
         }
     }
+
 
     private void uploadFiles() {
 
         if(audioUri!=null){
             Toast.makeText(this,"uploads please wait!",Toast.LENGTH_SHORT).show();
             progressBar.setVisibility(View.VISIBLE);
-            final StorageReference storageReference = mStorageref.child(System.currentTimeMillis()+"."+getFileExtesion(audioUri));
+            StorageReference storageReference = mStorageref.child(System.currentTimeMillis()+"."+getFileExtesion(audioUri));
             UploadTask = storageReference.putFile(audioUri).addOnSuccessListener(new OnSuccessListener<com.google.firebase.storage.UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(com.google.firebase.storage.UploadTask.TaskSnapshot taskSnapshot) {
@@ -181,11 +230,10 @@ public class UploadSongsActivity extends AppCompatActivity implements AdapterVie
                     storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-
                             UpLoadSong upLoadSong = new UpLoadSong(songsCategory,title1,artist1,album_art1,duration1,uri.toString());
-                            String uploadID = referenceSongs.push().getKey();
-                            referenceSongs.child(String.valueOf(uploadID)).setValue(upLoadSong);
-                            //a++;
+
+                            referenceSongs.child(String.valueOf(upLoadSong.getNumId())).setValue(upLoadSong);
+
                         }
                     });
 

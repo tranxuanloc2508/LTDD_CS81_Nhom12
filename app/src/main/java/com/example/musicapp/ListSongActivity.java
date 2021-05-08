@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.webkit.PermissionRequest;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -48,147 +49,94 @@ import java.util.List;
 public class ListSongActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    private  boolean checkPermission = false;
-    Uri uri;
-    String songName,songUrl;
-    Boolean checkin =  false;
-    JSongsApdaterPlayer adapter;
-    private int currentIndex;
     ProgressBar progressBar;
-
+    Boolean checkin =  false;
+    List<UpLoadSong> mUpload;
+    JSongsApdaterPlayer adapter;
     DatabaseReference databaseReference;
     ValueEventListener valueEventListener;
-    List<GetSongs> mUpload;
-    ListView listView;
-    TextView tv_songname,tv_songArtists;
-
-
-
-    ArrayList<String> arrayListSongsName = new ArrayList<>();
-    ArrayList<String> arrayListSongsUrl = new ArrayList<>();
-    ArrayAdapter<String> arrayAdapter;
-
-
     JcPlayerView jcPlayerView;
     ArrayList<JcAudio> jcAudios = new ArrayList<>();
-    ArrayList<String> url = new ArrayList<>();
-    ArrayList<String> songCategory = new ArrayList<>();
-    ArrayList<String> artists = new ArrayList<>();
-    ArrayList<String> album_art = new ArrayList<>();
+    Integer currentIndex = 0;
+   ImageView down;
+   TextView Lyric;
+//    ArrayList<Post> posts = null;
 
-//    ArrayAdapter<String> arrayAdapter;
-//    JcPlayerView jcPlayerView;
-//    ArrayList<JcAudio> jcAudios = new ArrayList<>();
+    ArrayList<String> lyrics = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_song);
-        listView = (ListView) findViewById(R.id.myListView);
+        down = findViewById(R.id.down);
 
         jcPlayerView = findViewById(R.id.jcplayer);
-        retrieveSongs();
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        Lyric=(TextView)findViewById(R.id.lyrics);
+        down.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                jcPlayerView.playAudio(jcAudios.get(position));
-                jcPlayerView.setVisibility(View.VISIBLE);
-                jcPlayerView.createNotification();
+            public void onClick(View v) {
+                Intent i = new Intent(ListSongActivity.this,ListSonggsActivity.class);
+                startActivity(i);
+                overridePendingTransition(R.anim.toptodown, R.anim.fade);
             }
         });
+//        adapter = new JSongsApdaterPlayer(getApplicationContext(), mUpload, new JSongsApdaterPlayer.RecyclerItemClickListener() {
+//            @Override
+//            public void onClickListener(UpLoadSong songs, int postion) {
+//                changSelectedSong(postion);
+//                jcPlayerView.playAudio(jcAudios.get(postion));
+//                jcPlayerView.setVisibility(View.VISIBLE);
+//                jcPlayerView.createNotification();
+//                currentIndex=postion;
+//
+//            }
+//        });
 
-        BottomNavigationView navView = findViewById(R.id.bottom_navigation);
-        navView.setSelectedItemId(R.id.artist);
-        navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.navigation_home:
-                        startActivity(new Intent(getApplicationContext(), ListSonggsActivity.class));
-                        finish();
-                        overridePendingTransition(0,0);
-                        return false;
-                    case R.id.navigation_dashboard:
-                        startActivity(new Intent(getApplicationContext(), AlbumActivity.class));
-                        finish();
-                        overridePendingTransition(0,0);
-                        return false;
-                    case R.id.navigation_notifications:
-                        startActivity(new Intent(getApplicationContext(), UploadSongsActivity.class));
-                        finish();
-                        overridePendingTransition(0,0);
-                        return false;
-                    case R.id.artist:
-
-                }
-
-                return true;
-            }
-        });
-    }
-
-    private void retrieveSongs() {
-
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("songs");
-
+        databaseReference = FirebaseDatabase.getInstance().getReference("songs");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                mUpload.clear();
+                for (DataSnapshot dss: snapshot.getChildren()){
+                    UpLoadSong getSongs = dss.getValue(UpLoadSong.class);
 
-                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    getSongs.setmKey(dss.getKey());
 
-                    GetSongs songObj = ds.getValue(GetSongs.class);
-                    arrayListSongsName.add(songObj.getSong());
-                    arrayListSongsUrl.add(songObj.getUrl());
-                    artists.add(songObj.getArtists());
+//                    mUpload.add(getSongs);
+                    checkin=true;
+                    jcAudios.add(JcAudio.createFromURL(getSongs.getSongTitle(),getSongs.getSongLink()));
 
-                    album_art.add(songObj.getCover_image());
-
-
-                    jcAudios.add(JcAudio.createFromURL(songObj.getSong(),songObj.getUrl()));
+                    //  }
                 }
-                arrayAdapter = new ArrayAdapter<String>(ListSongActivity.this, android.R.layout.simple_list_item_1, arrayListSongsName) {
 
-                    @NonNull
-                    @Override
-                    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                        View view = super.getView(position, convertView, parent);
-                        TextView textView = (TextView) view.findViewById(android.R.id.text1);
-                        textView.setSingleLine(true);
-                        textView.setMaxLines(1);
-                        return view;
-                    }
-                };
-                jcPlayerView.initPlaylist(jcAudios,null);
-                listView.setAdapter(arrayAdapter);
+                adapter.setSelectedPosition(currentIndex);
+                recyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+                progressBar.setVisibility(View.GONE);
+
+                if(checkin){
+                    jcPlayerView.initPlaylist(jcAudios,null);
+
+                }else {
+                    Toast.makeText(ListSongActivity.this, "there is no songs!!", Toast.LENGTH_SHORT).show();
+                }
 
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError error) {
 
+                progressBar.setVisibility(View.GONE);
             }
         });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.custom_menu,menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-    private void pickSong() {
-
-        Intent intent_upload = new Intent();
-        intent_upload.setType("audio/*");
-        intent_upload.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent_upload,1);
 
     }
 
-//    public void changSelectedSong(int index){
-//        adapter.notifyItemChanged(adapter.getSelectedPosition());
-//        currentIndex = index;
-//        adapter.setSelectedPosition(currentIndex);
-//        adapter.notifyItemChanged(currentIndex);
-//    }
+    public void changSelectedSong(int index){
+        adapter.notifyItemChanged(adapter.getSelectedPosition());
+        currentIndex = index;
+        adapter.setSelectedPosition(currentIndex);
+        adapter.notifyItemChanged(currentIndex);
+    }
 }

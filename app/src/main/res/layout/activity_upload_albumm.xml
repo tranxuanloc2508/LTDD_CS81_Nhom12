@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:padding="16dp"
-    tools:context=".Model.UpLoadAlbumActivity">
+    tools:context=".Model.UpLoadAlbumActivity"
+    android:background="@mipmap/ic6">
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -6,5 +6,5 @@
         android:title="Download"></item>
     <item
         android:id="@+id/click_about"
-        android:title="About"></item>
+        android:title="AddtoListAbum"></item>
 </menu>

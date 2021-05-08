@@ -6,7 +6,7 @@ public class UploadAlbum {
     String url;
     String songsCategory;
 
-    public UploadAlbum(String url,String name, String songsCategory) {
+    public UploadAlbum(String name,String songsCategory, String url) {
 
         this.url = url;
         this.name = name;

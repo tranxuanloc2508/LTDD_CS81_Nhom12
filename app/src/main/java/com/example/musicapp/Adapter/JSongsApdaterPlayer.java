@@ -1,13 +1,17 @@
 package com.example.musicapp.Adapter;
 
 import android.app.DownloadManager;
+import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
+import android.webkit.MimeTypeMap;
 import android.webkit.URLUtil;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,15 +21,29 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.musicapp.AlbumActivity;
+import com.example.musicapp.ListSongActivity;
+import com.example.musicapp.ListSonggsActivity;
+import com.example.musicapp.LoginActivity;
+import com.example.musicapp.MainActivity;
+import com.example.musicapp.Model.Contants;
 import com.example.musicapp.Model.UpLoadSong;
+import com.example.musicapp.Model.UploadAlbum;
 import com.example.musicapp.Model.Utility;
 import com.example.musicapp.PlayerActivity;
 import com.example.musicapp.R;
+import com.example.musicapp.SongsListActivity;
+import com.example.musicapp.UploadAlbummActivity;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,12 +58,16 @@ public class JSongsApdaterPlayer extends RecyclerView.Adapter<JSongsApdaterPlaye
     Integer currentSongIndex ;
     Context context;
     List<UpLoadSong> arrayListSongs;
+//    private OnNoteListener mOnNote;
     private RecyclerItemClickListener listener;
+    StorageReference storageReference;
+    private Uri fileFath;
 
     public JSongsApdaterPlayer(Context context, List<UpLoadSong> arrayListSongs, RecyclerItemClickListener listener) {
         this.context = context;
         this.arrayListSongs = arrayListSongs;
         this.listener = listener;
+//        this.mOnNote = onNoteListener;
     }
 
     @NonNull
@@ -57,6 +79,7 @@ public class JSongsApdaterPlayer extends RecyclerView.Adapter<JSongsApdaterPlaye
         return new SongsAdapterViewHolder(view);
 
     }
+
 
     @Override
     public void onBindViewHolder(@NonNull SongsAdapterViewHolder holder, int position) {
@@ -95,10 +118,11 @@ public class JSongsApdaterPlayer extends RecyclerView.Adapter<JSongsApdaterPlaye
 
 
 
-    public class SongsAdapterViewHolder extends RecyclerView.ViewHolder {
+    public class SongsAdapterViewHolder extends RecyclerView.ViewHolder{
         private TextView tv_title,tv_artist,tv_duration;
-        ImageView iv_play_active,iv_download;
+        ImageView iv_play_active,iv_download,a;
         ArrayList<String> so = new ArrayList<>();
+        OnNoteListener onNoteListener;
 
 
         public SongsAdapterViewHolder(@NonNull View itemView) {
@@ -107,8 +131,9 @@ public class JSongsApdaterPlayer extends RecyclerView.Adapter<JSongsApdaterPlaye
             tv_artist=itemView.findViewById(R.id.tv_artist);
             tv_duration=itemView.findViewById(R.id.tv_duration);
             iv_play_active = itemView.findViewById(R.id.iv_play_active);
+            a = itemView.findViewById(R.id.a);
             iv_download=itemView.findViewById(R.id.download);
-
+            this.onNoteListener= onNoteListener;
 
         }
 
@@ -119,6 +144,7 @@ public class JSongsApdaterPlayer extends RecyclerView.Adapter<JSongsApdaterPlaye
                 public void onClick(View v) {
                     listener.onClickListener(upLoadSong,getAdapterPosition());
 
+
                 }
             });
             mref =  FirebaseDatabase.getInstance().getReference("songs");
@@ -128,13 +154,7 @@ public class JSongsApdaterPlayer extends RecyclerView.Adapter<JSongsApdaterPlaye
                     mref.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                            for (DataSnapshot dss: snapshot.getChildren()){
-//                                UpLoadSong getSongs = dss.getValue(UpLoadSong.class);
-//
-//
-//                                getSongs.setmKey(dss.getKey());
-//
-//                                currentSongIndex = 0;
+
 
                             Uri url = Uri.parse(snapshot.child(String.valueOf(currentSongIndex+1)).child("songLink").getValue().toString());
 
@@ -148,9 +168,6 @@ public class JSongsApdaterPlayer extends RecyclerView.Adapter<JSongsApdaterPlaye
                                     .setDestinationInExternalPublicDir(DIRECTORY_DOWNLOADS, title);
                             DownloadManager downloadManager = (DownloadManager) context.getSystemService(DOWNLOAD_SERVICE);
                             downloadManager.enqueue(request);
-//                            Toast.makeText(this, "Start download ", Toast.LENGTH_SHORT).show();
-
-//                        }
                         }
 
                         @Override
@@ -160,23 +177,29 @@ public class JSongsApdaterPlayer extends RecyclerView.Adapter<JSongsApdaterPlaye
                     });
                 }
             });
+            a.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(context, UploadAlbummActivity.class);
+
+                    context.startActivity(i);
+                }
+            });
 
         }
-    }
+//        public String getFileExtension(Uri uri){
+//            ContentResolver cr = getContentResolver();
+//            MimeTypeMap mime = MimeTypeMap.getSingleton();
+//            return mime.getMimeTypeFromExtension(cr.getType(uri));
+//        }
 
-
-    private void dowloadfile(Context context, String fileName, String fileExtension, String des, String url) {
-
-        DownloadManager downloadManager = (DownloadManager) context.getSystemService(context.DOWNLOAD_SERVICE);
-        Uri uri = Uri.parse(url);
-        DownloadManager.Request request = new DownloadManager.Request(uri);
-
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        request.setDestinationInExternalFilesDir(context,des,fileName+fileExtension);
-
-        downloadManager.enqueue(request);
 
     }
+    public interface OnNoteListener{
+        void onNoteClick(int position);
+
+    }
+
     public interface RecyclerItemClickListener{
 
         void onClickListener(UpLoadSong upLoadSong,int postion);

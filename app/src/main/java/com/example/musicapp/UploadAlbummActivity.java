@@ -117,7 +117,7 @@ public class UploadAlbummActivity extends AppCompatActivity implements View.OnCl
                         public void onSuccess(Uri uri) {
 
                             String url = uri.toString();
-                            UploadAlbum upload = new UploadAlbum(edt_textName.getText().toString().trim(),url,songsCategory);
+                            UploadAlbum upload = new UploadAlbum(edt_textName.getText().toString().trim(),songsCategory,url);
                             String upLoadId= mDatabase.push().getKey();
                             mDatabase.child(upLoadId).setValue(upload);
                             progressDialog.dismiss();
