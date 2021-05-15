@@ -74,7 +74,7 @@ public class ListArtistSongActivity extends AppCompatActivity {
                     getSongs.setmKey(dss.getKey());
                     currentIndex = 0;
 
-                    final String s =  getIntent().getExtras().getString("artist");
+                    final String s =  getIntent().getExtras().getString("songCategory");
                     if(s.equals(getSongs.getArtist())){
 
                         mUpload.add(getSongs);

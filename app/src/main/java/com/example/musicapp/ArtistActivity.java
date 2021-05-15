@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.example.musicapp.Adapter.RecycleViewAlbum;
+import com.example.musicapp.Adapter.ViewArtist;
 import com.example.musicapp.Model.UploadAlbum;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
@@ -24,7 +25,7 @@ import java.util.List;
 
 public class ArtistActivity extends AppCompatActivity {
 
-    RecycleViewAlbum adapter;
+    ViewArtist adapter;
     RecyclerView recyclerView;
     DatabaseReference mDatabaseReference;
     ProgressDialog progressDialog;
@@ -51,7 +52,7 @@ public class ArtistActivity extends AppCompatActivity {
                     UploadAlbum uploadAlbum = dataSnapshot.getValue(UploadAlbum.class);
                     uploads.add(uploadAlbum);
                 }
-                adapter = new RecycleViewAlbum(getApplicationContext(),uploads);
+                adapter = new ViewArtist(getApplicationContext(),uploads);
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
             }

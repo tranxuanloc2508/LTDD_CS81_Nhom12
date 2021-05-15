@@ -17,6 +17,7 @@ import com.example.musicapp.AlbumActivity;
 import com.example.musicapp.ArtistActivity;
 import com.example.musicapp.ListAlbumSongActivity;
 
+import com.example.musicapp.ListArtistSongActivity;
 import com.example.musicapp.Model.UploadAlbum;
 
 import com.example.musicapp.R;
@@ -53,7 +54,7 @@ public class ViewArtist extends RecyclerView.Adapter<ViewArtist.MyViewHolder> {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(mContext, ArtistActivity.class);
+                Intent intent = new Intent(mContext, ListArtistSongActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("songCategory",upload.getSongsCategory());
                 mContext.startActivity(intent);

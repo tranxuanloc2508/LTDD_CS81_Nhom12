@@ -1,33 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainAdminActivity">
+    tools:context=".MainAdminActivity"
+    android:background="@mipmap/ic3">
 
     <Button
 
         android:id="@+id/btn_ablum"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Ablum"
+        android:layout_marginTop="20dp"
         app:icon="@drawable/ic_baseline_album_24" />
 
     <Button
+        android:layout_below="@id/btn_ablum"
         android:id="@+id/btn_artist"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
+        android:layout_marginTop="30dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Artist"
-        />
+        android:text="Artist" />
+
     <Button
         android:id="@+id/btn_song"
-
-        android:layout_width="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_below="@id/btn_artist"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Song"
-        />
-</LinearLayout>
+        android:text="Song" />
+</RelativeLayout>
