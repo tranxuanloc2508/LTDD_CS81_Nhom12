@@ -5,8 +5,8 @@
 
     <ImageView
         android:id="@+id/image_silde"
-        android:layout_width="386dp"
-        android:layout_height="327dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:adjustViewBounds="true" />
 
 

@@ -9,12 +9,12 @@ import android.widget.Button;
 
 public class HomeActivity extends AppCompatActivity {
 
-    Button Login,Register;
+    Button Login,Register,Admin;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
+        Admin = findViewById(R.id.admin_btn);
         Register = findViewById(R.id.btn_register_home);
         Login = findViewById(R.id.btn_login_home);
 
@@ -29,6 +29,13 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(HomeActivity.this,LoginActivity.class);
+                startActivity(i);
+            }
+        });
+        Admin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(HomeActivity.this,LoginAdminActivity.class);
                 startActivity(i);
             }
         });

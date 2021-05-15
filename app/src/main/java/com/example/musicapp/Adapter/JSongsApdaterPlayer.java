@@ -54,10 +54,11 @@ import static android.os.Environment.DIRECTORY_DOWNLOADS;
 public class JSongsApdaterPlayer extends RecyclerView.Adapter<JSongsApdaterPlayer.SongsAdapterViewHolder>{
 
     private int selectedPosition;
-    DatabaseReference mref ;
+    DatabaseReference mref ,mref2;
     Integer currentSongIndex ;
     Context context;
     List<UpLoadSong> arrayListSongs;
+    int like=0;
 //    private OnNoteListener mOnNote;
     private RecyclerItemClickListener listener;
     StorageReference storageReference;
@@ -120,7 +121,7 @@ public class JSongsApdaterPlayer extends RecyclerView.Adapter<JSongsApdaterPlaye
 
     public class SongsAdapterViewHolder extends RecyclerView.ViewHolder{
         private TextView tv_title,tv_artist,tv_duration;
-        ImageView iv_play_active,iv_download,a;
+        ImageView iv_play_active,iv_download,a,heart;
         ArrayList<String> so = new ArrayList<>();
         OnNoteListener onNoteListener;
 
@@ -133,6 +134,7 @@ public class JSongsApdaterPlayer extends RecyclerView.Adapter<JSongsApdaterPlaye
             iv_play_active = itemView.findViewById(R.id.iv_play_active);
             a = itemView.findViewById(R.id.a);
             iv_download=itemView.findViewById(R.id.download);
+            heart=itemView.findViewById(R.id.heart1);
             this.onNoteListener= onNoteListener;
 
         }
@@ -148,6 +150,43 @@ public class JSongsApdaterPlayer extends RecyclerView.Adapter<JSongsApdaterPlaye
                 }
             });
             mref =  FirebaseDatabase.getInstance().getReference("songs");
+            mref2= FirebaseDatabase.getInstance().getReference("playlist");
+
+            heart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (like == 0) {
+
+                        mref.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                String tiltle = snapshot.child(String.valueOf(currentSongIndex + 1)).child("songTitle").getValue().toString();
+                                String cate = snapshot.child(String.valueOf(currentSongIndex + 1)).child("songCategory").getValue().toString();
+                                String album = snapshot.child(String.valueOf(currentSongIndex + 1)).child("album_art").getValue().toString();
+                                String dura = snapshot.child(String.valueOf(currentSongIndex + 1)).child("songDuration").getValue().toString();
+                                String link = snapshot.child(String.valueOf(currentSongIndex + 1)).child("songLink").getValue().toString();
+
+                                UpLoadSong upLoadSong = new UpLoadSong(cate, tiltle, cate, album, dura, link);
+                                String uploadID = mref2.push().getKey();
+                                mref2.child(String.valueOf(upLoadSong.getNumId())).setValue(upLoadSong);
+                                heart.setImageResource(R.drawable.heart);
+                                like=1;
+                            }
+
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
+                    }else{
+                        heart.setImageResource(R.drawable.hear2);
+                        like=0;
+                    }
+                }
+
+            });
             iv_download.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
