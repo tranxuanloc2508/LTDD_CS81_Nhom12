@@ -106,7 +106,7 @@ public class ListSonggsActivity extends AppCompatActivity implements RecyclerVie
                         overridePendingTransition(0,0);
                         return false;
                     case R.id.navigation_notifications:
-                        startActivity(new Intent(getApplicationContext(), UploadSongsActivity.class));
+                        startActivity(new Intent(getApplicationContext(), ArtistActivity.class));
                         finish();
                         overridePendingTransition(0,0);
                         return false;

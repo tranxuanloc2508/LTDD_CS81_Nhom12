@@ -10,8 +10,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.example.musicapp.Model.UploadAlbum;
 import com.example.musicapp.Adapter.RecycleViewAlbum;
+import com.example.musicapp.Model.UploadAlbum;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,8 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AlbumActivity extends AppCompatActivity {
-
+public class ArtistActivity extends AppCompatActivity {
 
     RecycleViewAlbum adapter;
     RecyclerView recyclerView;
@@ -34,7 +33,7 @@ public class AlbumActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_album);
+        setContentView(R.layout.activity_artist);
 
         recyclerView =  findViewById(R.id.recycleView_id);
         recyclerView.setLayoutManager(new GridLayoutManager(this,3));
@@ -43,7 +42,7 @@ public class AlbumActivity extends AppCompatActivity {
 
         progressDialog.setMessage("Please wait...");
         progressDialog.show();
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference("uploads");
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference("artists");
         mDatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -65,7 +64,7 @@ public class AlbumActivity extends AppCompatActivity {
         });
 
         BottomNavigationView navView = findViewById(R.id.bottom_navigation);
-        navView.setSelectedItemId(R.id.navigation_dashboard);
+        navView.setSelectedItemId(R.id.navigation_notifications);
         navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -76,12 +75,12 @@ public class AlbumActivity extends AppCompatActivity {
                         overridePendingTransition(0,0);
                         return false;
                     case R.id.navigation_dashboard:
-
-                    case R.id.navigation_notifications:
-                        startActivity(new Intent(getApplicationContext(), ArtistActivity.class));
+                        startActivity(new Intent(getApplicationContext(), AlbumActivity.class));
                         finish();
                         overridePendingTransition(0,0);
                         return false;
+                    case R.id.navigation_notifications:
+
 
                 }
 
@@ -89,5 +88,4 @@ public class AlbumActivity extends AppCompatActivity {
             }
         });
     }
-
 }
