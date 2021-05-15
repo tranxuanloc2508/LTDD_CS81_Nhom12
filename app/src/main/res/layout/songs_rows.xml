@@ -59,8 +59,9 @@
         android:layout_height="30dp"
         android:layout_below="@+id/tv_duration"
         android:layout_marginLeft="200dp"
-        android:src="@drawable/ic_play_circle_outline_white"
-       ></ImageView>
+        android:src="@drawable/hear2"
+        android:visibility="invisible"
+        ></ImageView>
     <ImageView
         android:id="@+id/download"
         android:layout_width="20dp"
@@ -68,21 +69,16 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="30dp"
+        android:layout_marginRight="5dp"
         android:onClick="showMenu"
         android:src="@drawable/ic_baseline_arrow_downward_24"></ImageView>
 
     <ImageView
         android:id="@+id/heart1"
-        android:layout_width="20dp"
-        android:layout_height="50dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="6dp"
-        android:layout_marginEnd="2dp"
-        android:layout_marginRight="2dp"
-        android:layout_marginBottom="5dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/tv_duration"
+        android:layout_marginLeft="250dp"
         android:onClick="showMenu"
         android:src="@drawable/hear2"></ImageView>
 

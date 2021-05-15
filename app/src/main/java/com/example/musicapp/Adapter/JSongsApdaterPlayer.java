@@ -54,12 +54,17 @@ import static android.os.Environment.DIRECTORY_DOWNLOADS;
 public class JSongsApdaterPlayer extends RecyclerView.Adapter<JSongsApdaterPlayer.SongsAdapterViewHolder>{
 
     private int selectedPosition;
-    DatabaseReference mref ,mref2;
+    DatabaseReference mref,mref2 ;
     Integer currentSongIndex ;
     Context context;
+    private static int like=0;
+    int likee=0;
+    private static int dem;
+    private  int numId = ++dem;
+
+
     List<UpLoadSong> arrayListSongs;
-    int like=0;
-//    private OnNoteListener mOnNote;
+    //    private OnNoteListener mOnNote;
     private RecyclerItemClickListener listener;
     StorageReference storageReference;
     private Uri fileFath;
@@ -132,9 +137,9 @@ public class JSongsApdaterPlayer extends RecyclerView.Adapter<JSongsApdaterPlaye
             tv_artist=itemView.findViewById(R.id.tv_artist);
             tv_duration=itemView.findViewById(R.id.tv_duration);
             iv_play_active = itemView.findViewById(R.id.iv_play_active);
+            heart= itemView.findViewById(R.id.heart1);
             a = itemView.findViewById(R.id.a);
             iv_download=itemView.findViewById(R.id.download);
-            heart=itemView.findViewById(R.id.heart1);
             this.onNoteListener= onNoteListener;
 
         }
@@ -155,11 +160,25 @@ public class JSongsApdaterPlayer extends RecyclerView.Adapter<JSongsApdaterPlaye
             heart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (like == 0) {
+                    if(likee==0){
+                        mref2.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                dem= Integer.parseInt(String.valueOf(snapshot.getChildrenCount()));
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
 
                         mref.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                                 String tiltle = snapshot.child(String.valueOf(currentSongIndex + 1)).child("songTitle").getValue().toString();
                                 String cate = snapshot.child(String.valueOf(currentSongIndex + 1)).child("songCategory").getValue().toString();
                                 String album = snapshot.child(String.valueOf(currentSongIndex + 1)).child("album_art").getValue().toString();
@@ -168,25 +187,31 @@ public class JSongsApdaterPlayer extends RecyclerView.Adapter<JSongsApdaterPlaye
 
                                 UpLoadSong upLoadSong = new UpLoadSong(cate, tiltle, cate, album, dura, link);
                                 String uploadID = mref2.push().getKey();
-                                mref2.child(String.valueOf(upLoadSong.getNumId())).setValue(upLoadSong);
+                                mref2.child(String.valueOf(dem+1)).setValue(upLoadSong);
                                 heart.setImageResource(R.drawable.heart);
-                                like=1;
+                                likee=1;
+
                             }
+
 
 
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
 
                             }
+
                         });
 
                     }else{
                         heart.setImageResource(R.drawable.hear2);
-                        like=0;
+                        likee=0;
                     }
                 }
 
+
+
             });
+
             iv_download.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

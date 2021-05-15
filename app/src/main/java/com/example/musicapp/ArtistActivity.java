@@ -81,6 +81,11 @@ public class ArtistActivity extends AppCompatActivity {
                         return false;
                     case R.id.navigation_notifications:
 
+                    case R.id.playlist:
+                        startActivity(new Intent(getApplicationContext(), PlaylistActivity.class));
+                        finish();
+                        overridePendingTransition(0,0);
+                        return false;
 
                 }
 

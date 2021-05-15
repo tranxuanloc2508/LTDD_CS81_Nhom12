@@ -16,5 +16,9 @@
         android:id="@+id/navigation_notifications"
         android:icon="@drawable/ic_notifications_black_24dp"
         android:title="Update" />
+    <item
+        android:id="@+id/playlist"
+        android:icon="@drawable/ic_notifications_black_24dp"
+        android:title="Playlist" />
 
 </menu>

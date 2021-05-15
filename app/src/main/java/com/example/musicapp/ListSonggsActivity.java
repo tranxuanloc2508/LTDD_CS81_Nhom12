@@ -110,6 +110,11 @@ public class ListSonggsActivity extends AppCompatActivity implements RecyclerVie
                         finish();
                         overridePendingTransition(0,0);
                         return false;
+                    case R.id.playlist:
+                        startActivity(new Intent(getApplicationContext(), PlaylistActivity.class));
+                        finish();
+                        overridePendingTransition(0,0);
+                        return false;
 
                 }
 

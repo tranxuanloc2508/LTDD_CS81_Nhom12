@@ -56,11 +56,11 @@
         android:layout_below="@id/l"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        style="@android:style/Widget.ProgressBar.Horizontal"
         android:id="@+id/ProgressBar"
         android:layout_marginTop="30dp"></ProgressBar>
     <Button
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="40dp"
         android:layout_above="@id/l1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -72,7 +72,7 @@
     <LinearLayout
         android:id="@+id/l1"
         android:layout_marginBottom="40dp"
-        android:layout_above="@id/btn_openImageUpload"
+        android:layout_above="@id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -112,14 +112,7 @@
             android:layout_height="150dp"
             android:id="@+id/imageView"></ImageView>
     </LinearLayout>
-    <Button
-        android:layout_marginBottom="20dp"
-        android:layout_above="@id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn_openImageUpload"
-        android:onClick="openAlbumloadsActivity"
-        android:text="open upload album activity"></Button>
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"

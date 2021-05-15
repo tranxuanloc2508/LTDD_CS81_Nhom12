@@ -211,7 +211,7 @@ public class UploadSongsActivity extends AppCompatActivity implements AdapterVie
                 Toast.makeText(this,"song upload in allreally progress!",Toast.LENGTH_SHORT).show();
             }else {
                 uploadFiles();
-
+                Toast.makeText(this,"Done",Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -256,8 +256,8 @@ public class UploadSongsActivity extends AppCompatActivity implements AdapterVie
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
         return  mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(audioUri));
     }
-    public  void openAlbumloadsActivity(View v){
-        Intent in = new Intent(UploadSongsActivity.this, UploadAlbummActivity.class);
-        startActivity(in);
-    }
+//    public  void openAlbumloadsActivity(View v){
+//        Intent in = new Intent(UploadSongsActivity.this, UploadAlbummActivity.class);
+//        startActivity(in);
+//    }
 }

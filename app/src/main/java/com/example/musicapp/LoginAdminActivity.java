@@ -51,7 +51,7 @@ public class LoginAdminActivity extends AppCompatActivity {
 
                         Toast.makeText(LoginAdminActivity.this, "Login successful   ", Toast.LENGTH_SHORT).show();
 
-                        Intent i = new Intent(LoginAdminActivity.this,LoginActivity.class);
+                        Intent i = new Intent(LoginAdminActivity.this,MainAdminActivity.class);
                         startActivity(i);
                     }
                 }
